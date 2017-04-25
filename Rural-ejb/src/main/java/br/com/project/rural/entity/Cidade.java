@@ -34,10 +34,12 @@ public class Cidade implements Serializable, ModelInterface {
     @GeneratedValue(generator = "GENERATE_Cidade", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "GENERATE_Cidade", sequenceName = "Cidade_pk_seq", allocationSize = 1)
     private Long id;
+    
     @Column(nullable = false)
     @NotNull
     @Size(min = 2, max = 255)
     private String nome;
+    
     @ManyToOne
     private Usuario modificadoPor;
     @ManyToOne
