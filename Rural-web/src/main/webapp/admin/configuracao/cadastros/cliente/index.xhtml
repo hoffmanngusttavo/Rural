@@ -34,19 +34,48 @@
                          emptyMessage="Nenhum registro encontrado"
                          sortBy="id">
 
+                <f:facet name="header">
+                    <p:commandButton value="Novo"
+                                     process="@this"
+                                     immediate="true"
+                                     action="form.xhtml"/>
+                </f:facet>
+
                 <p:column id="idCliente" 
                           headerText="Id">
                     <h:outputText value="#{item.id}" />
                 </p:column>
-                
+
                 <p:column id="nomeCliente" 
                           headerText="Nome">
                     <h:outputText value="#{item.nome}" />
                 </p:column>
 
+                <p:column id="acoes"
+                          headerText="Ações">
+                    <p:commandButton icon="fa fa-pencil"
+                                     styleClass="bt-acoes" 
+                                     process="@this"
+                                     onclick="window.location = '#{facesContext.externalContext.requestContextPath}/admin/configuracao/cadastros/cliente/form.xhtml?id=#{item.id}'">
+                        <f:param name="id" 
+                                 value="#{item.id}" />
+                    </p:commandButton>
+
+                    <p:commandButton icon="fa fa-trash"
+                                     styleClass="bt-acoes"
+                                     process="@this"
+                                     actionListener="#{ClienteCrudMB.removerCliente(item)}">
+                        <p:confirm header="Remover"
+                                   message="Deseja remover esse cliente?" 
+                                   icon="ui-icon-alert" />
+                    </p:commandButton>
+                </p:column>
             </p:dataTable>
 
-            
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
 
         </h:form>
     </ui:define>

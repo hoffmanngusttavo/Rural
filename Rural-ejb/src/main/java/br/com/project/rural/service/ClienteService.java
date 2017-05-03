@@ -40,7 +40,7 @@ public class ClienteService extends BasicService{
         clienteRepository = new ClienteRepository(em);
     }
     
-    public Cliente getCliente(int id) {
+    public Cliente getCliente(Long id) throws Exception{
         return clienteRepository.getCliente(id);
     }
     
@@ -57,7 +57,7 @@ public class ClienteService extends BasicService{
         return clienteRepository.create(cliente);
     }
     
-    public List<Cliente> findAll() {
+    public List<Cliente> findAll() throws Exception{
         return clienteRepository.findAll();
     }
     

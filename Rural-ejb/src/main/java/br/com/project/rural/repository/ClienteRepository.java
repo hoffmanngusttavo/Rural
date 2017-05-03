@@ -19,24 +19,24 @@ public class ClienteRepository extends BasicRepository{
         super(entityManager);
     }
 
-    public List<Cliente> findAll() {
+    public List<Cliente> findAll() throws Exception{
         return getPureList(Cliente.class, "select cli from Cliente cli");
     }
 
-    public Cliente create(Cliente cliente) {
+    public Cliente create(Cliente cliente) throws Exception {
         addEntity(Cliente.class, cliente);
         return cliente;
     }
 
-    public void delete(Cliente cliente) {
+    public void delete(Cliente cliente) throws Exception{
         removeEntity(cliente);
     }
 
-    public Cliente update(Cliente cliente) {
+    public Cliente update(Cliente cliente) throws Exception{
         return setEntity(Cliente.class, cliente);
     }
 
-    public Cliente getCliente(int id) {
+    public Cliente getCliente(Long id) throws Exception{
         return getEntity(Cliente.class, id);
     }
     

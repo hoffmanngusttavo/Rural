@@ -8,15 +8,15 @@ package br.com.project.rural.controller;
 import br.com.project.rural.entity.Usuario;
 import br.com.project.rural.service.UsuarioService;
 import javax.ejb.EJB;
-import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
 
 /**
  *
  * @author Gustavo Hoffmann
  */
-@Named(value = "acessoManagedBean")
 @SessionScoped
+@ManagedBean(name = "acessoManagedBean")
 public class AcessoManagedBean extends BasicControl{
 
     @EJB
@@ -36,6 +36,12 @@ public class AcessoManagedBean extends BasicControl{
         
     }
 
+    
+    public String logar(){
+        return "/admin/index.xhtml";
+    }
+    
+    
     public Usuario getEntity() {
         return entity;
     }

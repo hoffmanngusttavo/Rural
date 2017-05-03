@@ -39,7 +39,7 @@ public class Cliente implements Serializable, ModelInterface {
     @Column
     @Size(min = 2, max = 12)
     private String celular;
-    @Column
+    @Column(unique = true)
     @Size(min = 2, max = 12)
     private String cpfCnpj;
     @ManyToOne

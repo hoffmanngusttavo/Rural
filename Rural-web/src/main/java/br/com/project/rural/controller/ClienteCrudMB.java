@@ -10,16 +10,17 @@ import br.com.project.rural.service.ClienteService;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Named;
 
 /**
  *
  * @author Gustavo Hoffmann
  */
-@Named(value = "ClienteCrudMB")
 @ViewScoped
+@ManagedBean(name = "ClienteCrudMB")
 public class ClienteCrudMB extends BasicControl {
 
     private Cliente entity;
@@ -27,11 +28,34 @@ public class ClienteCrudMB extends BasicControl {
     @EJB
     private ClienteService clienteService;
 
+    @PostConstruct
+    public void postConstruct() {
+        System.out.println("Users Control started " + hashCode());
+    }
+
     public ClienteCrudMB() {
         entity = new Cliente();
     }
 
-    public void salvarCliente() {
+    public Cliente getEntity() {
+        if (entity == null) {
+            entity = new Cliente();
+        }
+
+        if (getRequestParam("id") != null && !getRequestParam("id").isEmpty()) {
+            if ((((entity).getId() == null)) || (entity).getId() != Long.parseLong(getRequestParam("id"))) {
+                try {
+                    entity = clienteService.getCliente(Long.parseLong(getRequestParam("id")));
+                } catch (Exception ex) {
+                    Logger.getLogger(ClienteCrudMB.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        return entity;
+    }
+
+    public String salvarCliente() {
         try {
             if (entity.getId() == null) {
                 clienteService.create(entity);
@@ -39,25 +63,43 @@ public class ClienteCrudMB extends BasicControl {
                 clienteService.update(entity);
             }
             createFacesInfoMessage("Dados Gravados com sucesso");
+            return "./index.xhtml";
         } catch (Exception ex) {
             Logger.getLogger(ClienteCrudMB.class.getName()).log(Level.SEVERE, null, ex);
             createFacesErrorMessage(ex.getMessage());
+            return null;
+        }finally{
+            scrollTopMessage();
+        }
+    }
+
+    public void removerCliente(Cliente cliente) {
+        try {
+            if (cliente != null) {
+                clienteService.delete(cliente);
+                createFacesInfoMessage("Dados Removidos com sucesso");
+            } 
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteCrudMB.class.getName()).log(Level.SEVERE, null, ex);
+            createFacesErrorMessage(ex.getMessage());
+        }finally{
+            scrollTopMessage();
         }
     }
 
     public List<Cliente> getClientes() {
         if (clientes == null) {
-            clientes = clienteService.findAll();
+            try {
+                clientes = clienteService.findAll();
+            } catch (Exception ex) {
+                Logger.getLogger(ClienteCrudMB.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return clientes;
     }
 
     public void setClientes(List<Cliente> clientes) {
         this.clientes = clientes;
-    }
-
-    public Cliente getEntity() {
-        return entity;
     }
 
     public void setEntity(Cliente entity) {
