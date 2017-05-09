@@ -14,8 +14,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -27,9 +25,6 @@ import javax.persistence.PersistenceContext;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class UsuarioService extends BasicService {
 
-    @PersistenceContext
-    private EntityManager em;
-
     private UsuarioRepository usuarioRepository;
 
     @PostConstruct
@@ -39,7 +34,9 @@ public class UsuarioService extends BasicService {
         
     }
 
-    public UsuarioService() {
+    @Override
+    public Object getEntity(Long id) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

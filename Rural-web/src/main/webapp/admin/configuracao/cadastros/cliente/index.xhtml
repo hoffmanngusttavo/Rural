@@ -12,7 +12,8 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form prependId="false">
+        <h:form prependId="false"
+                id="form">
 
             <h:messages/>
 
@@ -35,10 +36,9 @@
                          sortBy="id">
 
                 <f:facet name="header">
-                    <p:commandButton value="Novo"
-                                     process="@this"
-                                     immediate="true"
-                                     action="form.xhtml"/>
+                   
+                    <h:commandButton action="form?faces-redirect=true"
+                                     value="Novo" />
                 </f:facet>
 
                 <p:column id="idCliente" 
@@ -64,6 +64,7 @@
                     <p:commandButton icon="fa fa-trash"
                                      styleClass="bt-acoes"
                                      process="@this"
+                                     update="@form"
                                      actionListener="#{ClienteCrudMB.removerCliente(item)}">
                         <p:confirm header="Remover"
                                    message="Deseja remover esse cliente?" 

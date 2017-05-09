@@ -16,5 +16,5 @@ public class UsuarioRepository extends BasicRepository{
     public UsuarioRepository(EntityManager entityManager) {
         super(entityManager);
     }
-    
+   
 }

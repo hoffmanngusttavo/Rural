@@ -45,7 +45,7 @@ public class ClienteCrudMB extends BasicControl {
         if (getRequestParam("id") != null && !getRequestParam("id").isEmpty()) {
             if ((((entity).getId() == null)) || (entity).getId() != Long.parseLong(getRequestParam("id"))) {
                 try {
-                    entity = clienteService.getCliente(Long.parseLong(getRequestParam("id")));
+                    entity = clienteService.getEntity(Long.parseLong(getRequestParam("id")));
                 } catch (Exception ex) {
                     Logger.getLogger(ClienteCrudMB.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -77,6 +77,7 @@ public class ClienteCrudMB extends BasicControl {
         try {
             if (cliente != null) {
                 clienteService.delete(cliente);
+                clientes = null;
                 createFacesInfoMessage("Dados Removidos com sucesso");
             } 
         } catch (Exception ex) {

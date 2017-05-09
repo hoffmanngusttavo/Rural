@@ -6,6 +6,8 @@
 package br.com.project.rural.service;
 
 import java.io.Serializable;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -13,8 +15,11 @@ import java.io.Serializable;
  * @param <T>
  */
 
-abstract class BasicService implements Serializable {
+abstract class BasicService<T> implements Serializable {
 
+    @PersistenceContext(unitName = "RuralPU")
+    protected EntityManager em;
+
+    public abstract T getEntity(Long id) throws Exception;
     
-
 }

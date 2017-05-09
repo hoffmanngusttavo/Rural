@@ -27,10 +27,7 @@ import javax.persistence.PersistenceContext;
 @LocalBean
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 @TransactionManagement(TransactionManagementType.CONTAINER)
-public class ClienteService extends BasicService{
-    
-    @PersistenceContext
-    private EntityManager em;
+public class ClienteService extends BasicService<Cliente>{
     
     private ClienteRepository clienteRepository;
     
@@ -40,9 +37,17 @@ public class ClienteService extends BasicService{
         clienteRepository = new ClienteRepository(em);
     }
     
-    public Cliente getCliente(Long id) throws Exception{
+    /**
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Cliente getEntity(Long id) throws Exception {
         return clienteRepository.getCliente(id);
     }
+    
     
     public Cliente update(Cliente cliente) throws Exception {
         return clienteRepository.update(cliente);
@@ -60,6 +65,12 @@ public class ClienteService extends BasicService{
     public List<Cliente> findAll() throws Exception{
         return clienteRepository.findAll();
     }
+
+   
+
+    
+
+    
     
     
 }
