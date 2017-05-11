@@ -7,6 +7,7 @@ package br.com.project.rural.service;
 
 import br.com.project.rural.entity.Cliente;
 import br.com.project.rural.repository.ClienteRepository;
+import br.com.project.rural.utils.ModelFilter;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
@@ -16,8 +17,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -64,6 +63,16 @@ public class ClienteService extends BasicService<Cliente>{
     
     public List<Cliente> findAll() throws Exception{
         return clienteRepository.findAll();
+    }
+    
+    public List<Cliente> findRange(int limit, int offSet) throws Exception{
+        
+        ModelFilter modelFilter = ModelFilter.getInstance();
+        modelFilter.setEntidade(Cliente.class);
+        modelFilter.setLimit(limit);
+        modelFilter.setOffSet(offSet);
+        
+        return clienteRepository.findRange(modelFilter);
     }
 
    

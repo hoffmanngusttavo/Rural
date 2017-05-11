@@ -6,6 +6,8 @@
 package br.com.project.rural.repository;
 
 import br.com.project.rural.entity.Cliente;
+import br.com.project.rural.entity.ModelInterface;
+import br.com.project.rural.utils.ModelFilter;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -21,6 +23,10 @@ public class ClienteRepository extends BasicRepository{
 
     public List<Cliente> findAll() throws Exception{
         return getPureList(Cliente.class, "select cli from Cliente cli");
+    }
+    
+    public List<Cliente> findRange(ModelFilter modelFilter) throws Exception{
+        return getPureListRange(Cliente.class, modelFilter.getSqlBase(), modelFilter.getLimit(), modelFilter.getOffSet());
     }
 
     public Cliente create(Cliente cliente) throws Exception {
