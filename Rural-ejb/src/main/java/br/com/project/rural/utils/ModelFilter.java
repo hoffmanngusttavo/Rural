@@ -41,14 +41,27 @@ public class ModelFilter implements Serializable {
         filtros.put(campo, value);
     }
 
+    public String getSqlCountBase() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT COUNT(o) FROM ").append(entidade.getSimpleName()).append(" as o WHERE 1 = 1 ");
+        if (filtros != null) {
+            for (String key : filtros.keySet()) {
+//                sb.append(getOperadorCampo(key));
+            }
+        }
+        return sb.toString();
+    }
+
     public String getSqlBase() {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT (o) FROM ").append(entidade.getSimpleName()).append(" as o WHERE 1 = 1 ");
 
-        for (String key : filtros.keySet()) {
-            sb.append(getOperadorCampo(key));
+        if (filtros != null) {
+            for (String key : filtros.keySet()) {
+//                sb.append(getOperadorCampo(key));
+            }
         }
-        
+
         sb.append(" ORDER BY ");
         if (orderBy == null || orderBy.isEmpty()) {
             sb.append(" o.id DESC, ");
@@ -66,14 +79,11 @@ public class ModelFilter implements Serializable {
                     sb.append(campo).append(" DESC ,  ");
                 }
             }
-            
             sb.append(" o.id ");
-
         }
-
         return sb.toString();
     }
-    
+
     public String getOperadorCampo(String campo) {
         String aliasCampo = campo;
 
@@ -82,13 +92,6 @@ public class ModelFilter implements Serializable {
         }
 
         return " AND" + "  " + aliasCampo + " =  '" + filtros.get(campo) + "' ";
-    }
-    
-
-    public String getSqlCountBase() {
-        StringBuilder sb = new StringBuilder();
-
-        return sb.toString();
     }
 
     public static ModelFilter getInstance() {

@@ -28,6 +28,10 @@ public class ClienteRepository extends BasicRepository{
     public List<Cliente> findRange(ModelFilter modelFilter) throws Exception{
         return getPureListRange(Cliente.class, modelFilter.getSqlBase(), modelFilter.getLimit(), modelFilter.getOffSet());
     }
+    
+    public int count (ModelFilter modelFilter) throws Exception{
+        return getCount(modelFilter.getSqlCountBase());
+    }
 
     public Cliente create(Cliente cliente) throws Exception {
         addEntity(Cliente.class, cliente);

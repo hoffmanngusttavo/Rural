@@ -75,6 +75,11 @@ import javax.persistence.Query;
         return qr.executeUpdate();
     }
     
+    protected int getCount(String query) throws Exception{
+        Query qr = getEntityManager().createQuery(query);
+        return ((Number)qr.getSingleResult()).intValue();
+    }
+    
     private Query createQuery(String query,Object... values) {
         Query qr = getEntityManager().createQuery(query);
         for (int i = 0; i < values.length; i++) {

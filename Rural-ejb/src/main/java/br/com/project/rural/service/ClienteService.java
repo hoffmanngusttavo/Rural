@@ -9,6 +9,8 @@ import br.com.project.rural.entity.Cliente;
 import br.com.project.rural.repository.ClienteRepository;
 import br.com.project.rural.utils.ModelFilter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.PostActivate;
@@ -65,14 +67,35 @@ public class ClienteService extends BasicService<Cliente>{
         return clienteRepository.findAll();
     }
     
-    public List<Cliente> findRange(int limit, int offSet) throws Exception{
-        
-        ModelFilter modelFilter = ModelFilter.getInstance();
-        modelFilter.setEntidade(Cliente.class);
-        modelFilter.setLimit(limit);
-        modelFilter.setOffSet(offSet);
-        
-        return clienteRepository.findRange(modelFilter);
+    public List<Cliente> findRange(ModelFilter modelFilter) {
+        try {
+            modelFilter.setEntidade(Cliente.class);
+            return clienteRepository.findRange(modelFilter);
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public int count (ModelFilter modelFilter) {
+        try {
+            modelFilter.setEntidade(Cliente.class);
+            return clienteRepository.count(modelFilter);
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+    
+    public int count() {
+        try {
+            ModelFilter modelFilter = ModelFilter.getInstance();
+            modelFilter.setEntidade(Cliente.class);
+            return clienteRepository.count(modelFilter);
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 
    
