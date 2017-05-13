@@ -63,8 +63,13 @@ public class ClienteService extends BasicService<Cliente>{
         return clienteRepository.create(cliente);
     }
     
-    public List<Cliente> findAll() throws Exception{
-        return clienteRepository.findAll();
+    public List<Cliente> findAll() {
+        try {
+            return clienteRepository.findAll();
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     public List<Cliente> findRange(ModelFilter modelFilter) {

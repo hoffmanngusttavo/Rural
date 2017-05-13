@@ -28,7 +28,8 @@ import org.primefaces.model.SortOrder;
 public class ClienteCrudMB extends BasicControl {
 
     private Cliente entity;
-    private List<Cliente> clientes;
+    private Cliente clienteSelected;
+    private List<Cliente> clientesSelecionados;
     @EJB
     private ClienteService clienteService;
     private LazyDataModel<Cliente> lazyLista;
@@ -73,7 +74,7 @@ public class ClienteCrudMB extends BasicControl {
             Logger.getLogger(ClienteCrudMB.class.getName()).log(Level.SEVERE, null, ex);
             createFacesErrorMessage(ex.getMessage());
             return null;
-        }finally{
+        } finally {
             scrollTopMessage();
         }
     }
@@ -82,20 +83,16 @@ public class ClienteCrudMB extends BasicControl {
         try {
             if (cliente != null) {
                 clienteService.delete(cliente);
-                clientes = null;
                 createFacesInfoMessage("Dados Removidos com sucesso");
-            } 
+            }
         } catch (Exception ex) {
             Logger.getLogger(ClienteCrudMB.class.getName()).log(Level.SEVERE, null, ex);
             createFacesErrorMessage(ex.getMessage());
-        }finally{
+        } finally {
             scrollTopMessage();
         }
     }
 
-    public List<Cliente> getClientes() {
-        return clientes;
-    }
     
     public LazyDataModel<Cliente> getLazyDataModel() {
 
@@ -103,18 +100,39 @@ public class ClienteCrudMB extends BasicControl {
             lazyLista = new LazyDataModel<Cliente>() {
 
                 @Override
+                public Cliente getRowData(String rowKey) {
+                    List<Cliente> list = (List<Cliente>) getWrappedData();
+                    for (Cliente cli : list) {
+                        if (cli.getId().toString().equals(rowKey)) {
+                            return cli;
+                        }
+                    }
+                    return null;
+                }
+
+                @Override
+                public Object getRowKey(Cliente object) {
+                    return object.getId(); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
                 public List<Cliente> load(int offset, int max, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-                     ModelFilter modelFilter = ModelFilter.getInstance();
+                    ModelFilter modelFilter = ModelFilter.getInstance();
                     if (filters != null) {
                         for (String key : filters.keySet()) {
                             modelFilter.addFilter(key, filters.get(key));
                         }
                     }
                     //
+                    
+                    modelFilter.addOperador(ModelFilter.Operadores.ILIKE, "nome");
+                    
                     int count = clienteService.count(modelFilter);
                     this.setRowCount(count);
-                    
-                    modelFilter.addOrderBy(sortField, SortOrder.ASCENDING == sortOrder ? "ASC" : "DESC");
+
+                    if (sortField != null) {
+                        modelFilter.addOrderBy(sortField, SortOrder.ASCENDING == sortOrder ? "ASC" : "DESC");
+                    }
                     modelFilter.setLimit(max);
                     modelFilter.setOffSet(offset);
                     List<Cliente> clientes = clienteService.findRange(modelFilter);
@@ -128,16 +146,30 @@ public class ClienteCrudMB extends BasicControl {
         }
         return lazyLista;
     }
-    
-    
-    
 
-    public void setClientes(List<Cliente> clientes) {
-        this.clientes = clientes;
-    }
+   
 
     public void setEntity(Cliente entity) {
         this.entity = entity;
     }
+
+    public List<Cliente> getClientesSelecionados() {
+        clientesSelecionados = clienteService.findAll();
+        return clientesSelecionados;
+    }
+
+    public void setClientesSelecionados(List<Cliente> clientesSelecionados) {
+        this.clientesSelecionados = clientesSelecionados;
+    }
+
+    public Cliente getClienteSelected() {
+        return clienteSelected;
+    }
+
+    public void setClienteSelected(Cliente clienteSelected) {
+        this.clienteSelected = clienteSelected;
+    }
+
+    
 
 }

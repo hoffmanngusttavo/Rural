@@ -62,7 +62,7 @@ public class Cliente implements Serializable, ModelInterface {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nome = nome != null ? nome.toUpperCase() : nome;
     }
 
     public String getTelefone() {

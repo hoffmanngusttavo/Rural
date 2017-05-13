@@ -6,7 +6,6 @@
 package br.com.project.rural.repository;
 
 import br.com.project.rural.entity.Cliente;
-import br.com.project.rural.entity.ModelInterface;
 import br.com.project.rural.utils.ModelFilter;
 import java.util.List;
 import javax.persistence.EntityManager;
